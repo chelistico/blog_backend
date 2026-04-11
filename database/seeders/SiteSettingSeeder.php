@@ -26,6 +26,13 @@ class SiteSettingSeeder extends Seeder
                 'description' => 'Título completo del sitio',
             ],
             [
+                'key' => 'site_tagline',
+                'value' => 'Noticias de tecnología',
+                'type' => 'text',
+                'group' => 'branding',
+                'description' => 'Tagline del sitio',
+            ],
+            [
                 'key' => 'logo',
                 'value' => null,
                 'type' => 'image',
