@@ -212,6 +212,85 @@ Agregar en `/etc/hosts`:
 
 Configurar el virtual host para que apunte a `backend/public` y habilitar SSL.
 
+## Solución de Problemas
+
+### Error: `tempnam(): file created in the system's temporary directory`
+
+**Causa**: Filament intenta crear archivos temporales en `/tmp` pero hay problemas de permisos o el directorio no es accesible desde el contenedor.
+
+**Solución**:
+
+1. **Configurar directorio temporal personalizado en PHP** (dentro del contenedor):
+   ```bash
+   docker exec docker_php84 bash -c "echo 'sys_temp_dir = /var/www/html/blog/backend/storage/temp' > /usr/local/etc/php/conf.d/laravel-temp.ini"
+   ```
+
+2. **Crear directorio temporal con permisos correctos**:
+   ```bash
+   docker exec docker_php84 bash -c "mkdir -p /var/www/html/blog/backend/storage/temp && chown www-data:www-data /var/www/html/blog/backend/storage/temp && chmod 775 /var/www/html/blog/backend/storage/temp"
+   ```
+
+3. **Asegurar permisos correctos en todo storage/**:
+   ```bash
+   docker exec docker_php84 bash -c "cd /var/www/html/blog/backend && chown -R www-data:www-data storage/ && chmod -R 775 storage/"
+   ```
+
+4. **Limpiar cachés de Laravel**:
+   ```bash
+   docker exec docker_php84 bash -c "cd /var/www/html/blog/backend && php artisan config:clear && php artisan cache:clear"
+   ```
+
+---
+
+### Error: `Illuminate\Encryption\MissingAppKeyException`
+
+**Causa**: La clave de encriptación de Laravel (`APP_KEY`) no está configurada en el `.env`.
+
+**Solución**:
+
+1. **Generar clave de encriptación**:
+   ```bash
+   docker exec docker_php84 bash -c "cd /var/www/html/blog/backend && php artisan key:generate"
+   ```
+
+2. **Verificar que se generó correctamente**:
+   ```bash
+   docker exec docker_php84 bash -c "grep 'APP_KEY' /var/www/html/blog/backend/.env"
+   ```
+   
+   Debe mostrar algo como:
+   ```
+   APP_KEY=base64:iw0m1MiiGJvfwY1SFumivOKyLenvL77ygurp0SLnKj8=
+   ```
+
+3. **Limpiar caché de configuración**:
+   ```bash
+   docker exec docker_php84 bash -c "cd /var/www/html/blog/backend && php artisan config:clear"
+   ```
+
+---
+
+### Acceder al Admin de Filament
+
+Una vez resueltos los errores anteriores, puedes acceder al panel de administración en:
+
+```
+http://blog-api.local/admin
+```
+
+**Nota**: Asegúrate de que tienes un usuario con rol `admin` en la base de datos. Puedes verificarlo ejecutando:
+
+```bash
+docker exec docker_php84 bash -c "cd /var/www/html/blog/backend && php artisan tinker"
+```
+
+Y luego dentro de tinker:
+```php
+> \App\Models\User::where('is_admin', true)->first()
+```
+
+---
+
 ## Documentación
 
 - [Plan general del proyecto](../README.md)
