@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Advertisements\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Radio;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
@@ -44,9 +45,16 @@ class AdvertisementForm
                             ->inline(),
                     ]),
                 
-                TextInput::make('image')
-                    ->label('URL de imagen')
-                    ->url(),
+                FileUpload::make('image')
+                    ->label('Imagen')
+                    ->directory('images/advertisements')
+                    ->disk('public')
+                    ->visibility('public')
+                    ->image()
+                    ->maxSize(10240)
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'])
+                    ->visible(fn ($livewire) => $livewire->data['ad_type'] !== 'code'),
+                
                 TextInput::make('link')
                     ->label('URL de destino')
                     ->url(),

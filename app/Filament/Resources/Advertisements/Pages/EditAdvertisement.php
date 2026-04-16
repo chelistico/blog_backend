@@ -17,3 +17,4 @@ class EditAdvertisement extends EditRecord
         ];
     }
 }
+

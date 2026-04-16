@@ -3,8 +3,10 @@
 namespace App\Filament\Resources\Articles\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Repeater;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -49,15 +51,33 @@ class ArticleForm
                     ->collapsible()
                     ->collapsed()
                     ->schema([
-                        TextInput::make('main_image')
+                        FileUpload::make('main_image')
                             ->label('Imagen Principal')
-                            ->url()
+                            ->directory('images/articles')
+                            ->disk('public')
+                            ->visibility('public')
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'])
+                            ->maxSize(10240)
+                            ->required()
                             ->columnSpanFull(),
                         TextInput::make('video_url')
                             ->label('Video URL (YouTube/Vimeo)')
                             ->url(),
-                        KeyValue::make('embedded_images')
-                            ->label('Imagenes Embedidas'),
+                        Repeater::make('embedded_images')
+                            ->label('Imagenes Embedidas')
+                            ->schema([
+                                FileUpload::make('image')
+                                    ->label('Imagen')
+                                    ->directory('images/articles/embedded')
+                                    ->disk('public')
+                                    ->visibility('public')
+                                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif', 'image/webp'])
+                                    ->maxSize(10240)
+                            ])
+                            ->maxItems(20)
+                            ->collapsible()
+                            ->collapsed(false)
+                            ->addActionLabel('Agregar Imagen'),
                     ]),
                 
                 Section::make('Publicacion')

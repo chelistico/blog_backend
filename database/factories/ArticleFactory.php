@@ -21,10 +21,10 @@ class ArticleFactory extends Factory
             'slug' => Str::slug($title),
             'summary' => fake()->paragraph(2),
             'content' => $this->generateContent(),
-            'main_image' => fake()->imageUrl(1200, 630, 'technology'),
+            'main_image' => 'images/articles/article-' . fake()->uuid() . '.jpg',
             'embedded_images' => [
-                fake()->imageUrl(800, 600, 'technology'),
-                fake()->imageUrl(800, 600, 'business'),
+                'images/articles/embedded/image-' . fake()->uuid() . '.jpg',
+                'images/articles/embedded/image-' . fake()->uuid() . '.jpg',
             ],
             'video_url' => null,
             'author_id' => Author::factory(),

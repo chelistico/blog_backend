@@ -16,4 +16,26 @@ class EditArticle extends EditRecord
             DeleteAction::make(),
         ];
     }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        // Ensure embedded_images is properly formatted as an array of strings
+        if (isset($data['embedded_images']) && is_array($data['embedded_images'])) {
+            $embedded = [];
+            foreach ($data['embedded_images'] as $item) {
+                // Extract the image path from repeater item
+                if (is_array($item) && isset($item['image']) && !empty($item['image'])) {
+                    $embedded[] = $item['image'];
+                } elseif (is_string($item) && !empty($item)) {
+                    $embedded[] = $item;
+                }
+            }
+            $data['embedded_images'] = $embedded;
+        }
+
+        return $data;
+    }
 }
+
+
+

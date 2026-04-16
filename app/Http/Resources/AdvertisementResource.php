@@ -13,7 +13,7 @@ class AdvertisementResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'position' => $this->position,
-            'image' => $this->image,
+            'image' => $this->getImageUrl($this->image),
             'link' => $this->link,
             'code' => $this->when($this->code, $this->code),
             'dimensions' => $this->dimensions,
@@ -22,4 +22,20 @@ class AdvertisementResource extends JsonResource
             'end_date' => $this->end_date?->toIso8601String(),
         ];
     }
+
+    private function getImageUrl(?string $path): ?string
+    {
+        if (!$path) {
+            return null;
+        }
+
+        // If it's already a full URL, return as-is
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        // Convert relative path to storage URL
+        return url('storage/' . $path);
+    }
 }
+

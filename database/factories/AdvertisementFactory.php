@@ -14,7 +14,7 @@ class AdvertisementFactory extends Factory
         return [
             'name' => fake()->words(3, true),
             'position' => fake()->randomElement(['top', 'sidebar', 'inline', 'bottom', 'mobile']),
-            'image' => fake()->imageUrl(728, 90, 'business'),
+            'image' => 'images/advertisements/ad-' . fake()->uuid() . '.jpg',
             'link' => fake()->url(),
             'code' => null,
             'dimensions' => fake()->randomElement(['728x90', '300x250', '320x100']),

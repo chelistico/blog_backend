@@ -9,3 +9,4 @@ class CreateAdvertisement extends CreateRecord
 {
     protected static string $resource = AdvertisementResource::class;
 }
+
