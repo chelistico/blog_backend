@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Authors\Schemas;
 
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -23,9 +24,15 @@ class AuthorForm
                     ->email()
                     ->required()
                     ->unique(ignoreRecord: true),
-                TextInput::make('avatar')
-                    ->url()
-                    ->label('Avatar URL'),
+                FileUpload::make('avatar')
+                    ->label('Avatar')
+                    ->directory('images/authors')
+                    ->disk('public')
+                    ->visibility('public')
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'])
+                    ->maxSize(5120)
+                    ->image()
+                    ->nullable(),
                 Textarea::make('bio')
                     ->rows(3)
                     ->columnSpanFull(),
