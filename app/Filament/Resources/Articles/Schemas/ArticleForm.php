@@ -88,8 +88,14 @@ class ArticleForm
                         DateTimePicker::make('published_at')
                             ->label('Fecha de publicacion'),
                         TextInput::make('read_time')
+                            ->required()
+                            ->label('Tiempo de Lectura')
                             ->numeric()
-                            ->suffix('minutos'),
+                            ->default(5)
+                            ->minValue(1)
+                            ->maxValue(999)
+                            ->suffix('minutos')
+                            ->hint('Tiempo estimado de lectura en minutos'),
                     ])->columns(3),
             ]);
     }

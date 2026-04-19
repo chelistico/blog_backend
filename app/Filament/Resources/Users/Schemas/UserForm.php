@@ -38,6 +38,11 @@ class UserForm
                     ->nullable()
                     ->dehydrated(fn ($state) => filled($state))
                     ->confirmed(),
+                TextInput::make('password_confirmation')
+                    ->password()
+                    ->label('Confirmar Contraseña')
+                    ->nullable()
+                    ->dehydrated(false),
             ]);
     }
 }

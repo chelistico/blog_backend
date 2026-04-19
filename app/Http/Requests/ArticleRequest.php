@@ -24,7 +24,7 @@ class ArticleRequest extends FormRequest
             'video_url' => 'nullable|string|max:255',
             'author_id' => 'required|exists:authors,id',
             'published_at' => 'nullable|date',
-            'read_time' => 'nullable|integer|min:1',
+            'read_time' => 'required|integer|min:1|max:999',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
         ];
@@ -40,6 +40,10 @@ class ArticleRequest extends FormRequest
             'main_image.required' => 'La imagen principal es requerida',
             'author_id.required' => 'El autor es requerido',
             'author_id.exists' => 'El autor seleccionado no existe',
+            'read_time.required' => 'El tiempo de lectura es requerido',
+            'read_time.integer' => 'El tiempo de lectura debe ser un número entero',
+            'read_time.min' => 'El tiempo de lectura debe ser al menos 1 minuto',
+            'read_time.max' => 'El tiempo de lectura no puede exceder 999 minutos',
             'tags.*.exists' => 'Una o más etiquetas seleccionadas no existen',
         ];
     }
