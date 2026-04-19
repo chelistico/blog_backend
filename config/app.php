@@ -56,6 +56,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Frontend URL
+    |--------------------------------------------------------------------------
+    |
+    | This URL is used by Filament to generate links to the frontend.
+    | Set this to the URL where your frontend application is running.
+    |
+    */
+
+    'frontend_url' => env('FRONTEND_URL', 'http://localhost:5173/'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |

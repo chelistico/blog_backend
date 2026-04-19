@@ -79,7 +79,7 @@ class AdminPanelProvider extends PanelProvider
             ->navigationItems([
                 NavigationItem::make()
                     ->label('Ver sitio')
-                    ->url('http://localhost:5173/', shouldOpenInNewTab: true)
+                    ->url(config('app.frontend_url', 'http://localhost:5173/'), shouldOpenInNewTab: true)
                     ->icon('heroicon-o-arrow-top-right-on-square'),
             ])
             ->renderHook(
