@@ -8,4 +8,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateFooterItem extends CreateRecord
 {
     protected static string $resource = FooterItemResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

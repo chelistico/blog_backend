@@ -20,6 +20,7 @@ class ArticleForm
         return $schema
             ->components([
                 Section::make('Informacion basica')
+                    ->columnSpanFull()
                     ->schema([
                         TextInput::make('title')
                             ->required()
@@ -45,11 +46,11 @@ class ArticleForm
                             ->required()
                             ->fileAttachmentsDisk('public')
                             ->fileAttachmentsDirectory('images/articles'),
-                    ]),
+                    ])->columnSpanFull(),
                 
                 Section::make('Multimedia')
                     ->collapsible()
-                    ->collapsed()
+                    ->collapsed(false)
                     ->schema([
                         FileUpload::make('main_image')
                             ->label('Imagen Principal')
